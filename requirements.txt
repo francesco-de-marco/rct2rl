@@ -1,0 +1,8 @@
+ray==2.11.0
+tensorflow==2.15.1
+tf-keras==2.15.0
+pyzmq
+dm_tree
+numpy
+gymnasium
+scipy
