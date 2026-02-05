@@ -65,15 +65,15 @@ Dove `<mode>` indica il livello di difficoltà:
 
 ## 📊 Risultati Sperimentali
 
-Il training replica ha dimostrato capacità di apprendimento significative pur operando con throughput limitato (~1 step/s):
+Il training è stato ottimizzato rispetto alla configurazione originale applicando tre interventi principali per garantirne la fattibilità su hardware consumer:
 
-*   **Win Rate**: Raggiunto **82%** di vittorie sugli scenari testati (partendo da 0%).
-*   **Reward**: Miglioramento del reward medio da **-4.78** (random) a **+7.46**.
-*   **Metriche Parco**:
-    *   Ospiti medi: **+89%**
-    *   Park Rating: **+23%** (da 680 a 910 punti)
+1.  **Adattamento Iperparametri**: Riduzione del *training batch size* (da 512 a 256) e fissaggio dei worker a 2 per operare entro i limiti di VRAM della GPU (RTX 3050 Ti).
+2.  **Stabilità delle Risorse**: Vincoli espliciti sulla memoria dell'object store di Ray per prevenire crash OOM (*Out Of Memory*) e saturazione dello swap.
+3.  **Hybrid Reward Function**: Modifica della funzione di ricompensa per combinare il *shaping* denso originale con segnali sparsi terminali (bonus vittoria/sconfitta), accelerando la convergenza su orizzonti temporali ridotti.
+4.  **CBAM Attention**: Integrazione del modulo *Convolutional Block Attention Module* (CBAM) nella rete visuale per migliorare l'estrazione delle feature spaziali critiche.
+5.  **Transfer Learning**: Implementazione di pipeline di *Fine-Tuning* che hanno permesso di adattare il modello a nuovi scenari (es. *Crazy Castle*).
 
-L'agente ha appreso strategie robuste come la costruzione prioritaria di ride ad alta eccitazione e la gestione del layout, sebbene siano state osservate patologie come lo "Shop Spam" in fasi intermedie del training.
+> **Nota sulla Replica**: Per i dettagli completi sulla codebase di base e sulla procedura di replica originale, fare riferimento al [README della ricerca originale](https://github.com/campbelljc/rctrl) citato nei crediti.
 
 ## 👤 Autore
 
