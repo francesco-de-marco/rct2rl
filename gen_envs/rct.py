@@ -1460,8 +1460,8 @@ class RCTEnv(BasePathEnv):
         self.pct_to_objective_end[:] = self.cur_month / self.num_months
         self.norm_month[:] = self.cur_month / MAX_NUM_MONTHS
         if self.cur_month / self.num_months > 1:
-            print("cur_month:", self.cur_month, "num_months:", self.num_months, "timestep:", self.pct_to_objective_end[0, 0])
-        #assert 0 <= self.cur_month / self.num_months <= 1, f"cur_month: {self.cur_month}, num_months: {self.num_months}, timestep: {self.pct_to_objective_end[0, 0]}"
+            print("cur_month:", self.cur_month, "num_months:", self.num_months, "timestep:", self.pct_to_objective_end[0])
+        #assert 0 <= self.cur_month / self.num_months <= 1, f"cur_month: {self.cur_month}, num_months: {self.num_months}, timestep: {self.pct_to_objective_end[0]}"
 
         def normalize(stat_name, stat):
             norm_funcs = {

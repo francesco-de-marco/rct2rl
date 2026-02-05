@@ -14,7 +14,7 @@ os.environ["TF_USE_LEGACY_KERAS"] = "1"
 os.environ["PYTHONWARNINGS"] = "ignore::DeprecationWarning"
 
 # Path del modello di default (puoi cambiarlo qui o passare --model_dir)
-DEFAULT_MODEL_DIR = "~/ML/TEST/RCT2_Modello_Finale"
+DEFAULT_MODEL_DIR = "~/ML/TEST/RCT2_Modello_Transfer"
 
 try:
     import tensorflow as tf
