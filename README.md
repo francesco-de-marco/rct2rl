@@ -27,7 +27,7 @@ Il sistema disaccoppia l'agente dall'ambiente di gioco utilizzando **OpenRCT2** 
 ## 🚀 Installazione
 
 ### Prerequisiti
-*   Python 3.8+
+*   Python 3.10
 *   OpenRCT2 installato e configurato (inclusi i file asset originali di RCT2).
 *   Linux (testato su Ubuntu).
 
@@ -81,4 +81,4 @@ L'agente ha appreso strategie robuste come la costruzione prioritaria di ride ad
 Progetto di Machine & Deep Learning - A.A. 2025/2026
 
 ---
-*Credit: Basato sulla ricerca originale e sulla base di codice `rctrl`.*
+*Credit: Basato sulla ricerca originale e sulla base di codice `[rctrl](https://github.com/campbelljc/rctrl)`.*
