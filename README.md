@@ -48,6 +48,9 @@ Il sistema disaccoppia l'agente dall'ambiente di gioco utilizzando **OpenRCT2** 
 3. Verifica i percorsi in `paths.py`:
    Assicurati che `RCT_EXECUTABLE` punti al tuo binario di OpenRCT2.
 
+> **Nota sulla Replica**: Per i dettagli completi sulla codebase di base e sulla procedura di replica originale, fare riferimento al [README della ricerca originale](https://github.com/campbelljc/rctrl) citato nei crediti.
+
+
 ## 💻 Utilizzo
 
 Il training può essere avviato in diverse modalità a seconda della complessità dello scenario (vedi gerarchia ambienti in `rct.py`).
@@ -72,8 +75,6 @@ Il training è stato ottimizzato rispetto alla configurazione originale applican
 3.  **Hybrid Reward Function**: Modifica della funzione di ricompensa per combinare il *shaping* denso originale con segnali sparsi terminali (bonus vittoria/sconfitta), accelerando la convergenza su orizzonti temporali ridotti.
 4.  **CBAM Attention**: Integrazione del modulo *Convolutional Block Attention Module* (CBAM) nella rete visuale per migliorare l'estrazione delle feature spaziali critiche.
 5.  **Transfer Learning**: Implementazione di pipeline di *Fine-Tuning* che hanno permesso di adattare il modello a nuovi scenari (es. *Crazy Castle*).
-
-> **Nota sulla Replica**: Per i dettagli completi sulla codebase di base e sulla procedura di replica originale, fare riferimento al [README della ricerca originale](https://github.com/campbelljc/rctrl) citato nei crediti.
 
 ## 👤 Autore
 
