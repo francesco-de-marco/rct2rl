@@ -81,4 +81,4 @@ L'agente ha appreso strategie robuste come la costruzione prioritaria di ride ad
 Progetto di Machine & Deep Learning - A.A. 2025/2026
 
 ---
-*Credit: Basato sulla ricerca originale e sulla base di codice `[rctrl](https://github.com/campbelljc/rctrl)`.*
+*Credit: Basato sulla ricerca originale e sulla base di codice `https://github.com/campbelljc/rctrl`.*
