@@ -68,7 +68,7 @@ Where `<mode>` indicates the difficulty level:
 
 ## 📊 Experimental Results
 
-The training process was optimised compared to the original configuration by implementing three key changes to ensure it could run on consumer hardware:
+The training process was optimised compared to the original configuration by implementing five key changes to ensure it could run on consumer hardware:
 
 1.  **Hyperparameter Tuning**: Reducing the *training batch size* (from 512 to 256) and setting the number of workers to 2 to operate within the VRAM limits of the GPU (RTX 3050 Ti).
 2.  **Resource Stability**: Explicit constraints on Ray’s object store memory to prevent OOM (*Out Of Memory*) crashes and swap space saturation.
