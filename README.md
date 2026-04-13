@@ -5,81 +5,81 @@
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.15-orange)
 ![Ray RLlib](https://img.shields.io/badge/Ray-RLlib-blueviolet)
 
-Questo progetto presenta una replica sperimentale e un'analisi di un approccio di **Deep Reinforcement Learning** applicato al videogioco gestionale **OpenRCT2**. L'agente utilizza l'algoritmo **PPO (Proximal Policy Optimization)** con una rete neurale multi-modale per gestire parchi divertimento, ottimizzando il layout e la gestione economica per raggiungere obiettivi specifici di visitatori e rating.
+This project presents an experimental implementation and analysis of a **Deep Reinforcement Learning** approach applied to the management simulation video game **OpenRCT2**. The agent uses the **PPO (Proximal Policy Optimisation)** algorithm with a multimodal neural network to manage amusement parks, optimising the layout and financial management to achieve specific visitor and rating targets.
 
-## 🎯 Obiettivi
+## 🎯 Objectives
 
-*   **Validazione dell'algoritmo PPO** in ambienti complessi e stocastici come RCT.
-*   **Gestione spaziale a griglia**: L'agente "vede" il parco tramite mappe di calore (eccitazione, intensità, altezza) elaborate da una CNN Encoder-Decoder.
-*   **Action Masking**: Integrazione di vincoli logici per impedire azioni non valide (es. costruire in acqua o fuori mappa).
-*   **Replica su Hardware Consumer**: Adattamento degli iperparametri originali per il training su GPU singola (RTX 3050 Ti) con risorse limitate.
+*   **Validation of the PPO algorithm** in complex and stochastic environments such as RCT.
+*   **Grid-based spatial management**: The agent ‘sees’ the park via heatmaps (excitement, intensity, height) processed by an Encoder-Decoder CNN.
+*   **Action Masking**: Integration of logical constraints to prevent invalid actions (e.g. building in water or off-map).
+*   **Replication on Consumer Hardware**: Adaptation of the original hyperparameters for training on a single GPU (RTX 3050 Ti) with limited resources.
 
-## 🧠 Architettura del Sistema
+## 🧠 System Architecture
 
-Il sistema disaccoppia l'agente dall'ambiente di gioco utilizzando **OpenRCT2** in modalità headless e comunicando tramite socket ZeroMQ.
+The system decouples the agent from the game environment by using **OpenRCT2** in headless mode and communicating via ZeroMQ sockets.
 
-*   `pathrl.py`: **Entry Point**. Inizializza Ray e avvia il loop di training PPO.
-*   `gen_envs/rct.py`: Wrapper **Gymnasium** che traduce gli stati di gioco in tensori per la rete neurale.
-*   `bridge.py`: Gestisce la comunicazione **ZeroMQ** con il processo OpenRCT2 C++.
-*   `visionnet2d.py`: Rete **CNN Encoder-Decoder** che processa la mappa 87x87 del parco.
-*   `rl_model.py`: Implementa la policy network e l'**Action Masking**.
+*   `pathrl.py`: **Entry Point**. Initialises Ray and starts the PPO training loop.
+*   `gen_envs/rct.py`: **Gymnasium** wrapper that translates game states into tensors for the neural network.
+*   `bridge.py`: Handles **ZeroMQ** communication with the OpenRCT2 C++ process.
+*   `visionnet2d.py`: **CNN Encoder-Decoder** network that processes the 87x87 map of the park.
+*   `rl_model.py`: Implements the policy network and **Action Masking**.
 
-## 🚀 Installazione
+## 🚀 Installation
 
-### Prerequisiti
+### Prerequisites
 *   Python 3.10
-*   OpenRCT2 installato e configurato (inclusi i file asset originali di RCT2).
-*   Linux (testato su Ubuntu).
+*   OpenRCT2 installed and configured (including the original RCT2 asset files).
+*   Linux (tested on Ubuntu).
 
 ### Setup
-1. Clona il repository:
+1. Clone the repository:
    ```bash
    git clone https://github.com/francesco-de-marco/rct2rl.git
    cd rct2rl
    ```
 
-2. Crea un virtual environment e installa le dipendenze:
+2. Create a virtual environment and install the dependencies:
    ```bash
    python -m venv venv
    source venv/bin/activate
    pip install -r requirements.txt
    ```
 
-3. Verifica i percorsi in `paths.py`:
-   Assicurati che `RCT_EXECUTABLE` punti al tuo binario di OpenRCT2.
+3. Check the paths in `paths.py`:
+   Ensure that `RCT_EXECUTABLE` points to your OpenRCT2 binary.
 
-> **Nota sulla Replica**: Per i dettagli completi sulla codebase di base e sulla procedura di replica originale, fare riferimento al [README della ricerca originale](https://github.com/campbelljc/rctrl) citato nei crediti.
+> **Note on Replication**: For full details on the base codebase and the original replication procedure, please refer to the [README of the original research](https://github.com/campbelljc/rctrl) cited in the acknowledgements.
 
 
-## 💻 Utilizzo
+## 💻 Usage
 
-Il training può essere avviato in diverse modalità a seconda della complessità dello scenario (vedi gerarchia ambienti in `rct.py`).
+Training can be started in different modes depending on the complexity of the scenario (see environment hierarchy in `rct.py`).
 
-Comando base:
+Basic command:
 ```bash
 python pathrl.py <mode>
 ```
 
-Dove `<mode>` indica il livello di difficoltà:
-*   `1`: **RCTEnv** (Simulazione libera, training continuativo senza Game Over).
-*   `2`: **MeetObjectiveRCTEnv** (Aggiunge condizioni di vittoria/sconfitta basate su target ospiti).
-*   `3`: **ResearchMeetObjectiveRCTEnv** (Aggiunge la meccanica della ricerca dei ride).
-*   `4`: **DaysResearchMeetObjectiveRCTEnv** (Simulazione realistica giorno-per-giorno).
+Where `<mode>` indicates the difficulty level:
+*   `1`: **RCTEnv** (Free simulation, continuous training with no Game Over).
+*   `2`: **MeetObjectiveRCTEnv** (Adds win/loss conditions based on guest targets).
+*   `3`: **ResearchMeetObjectiveRCTEnv** (Adds the ride search mechanic).
+*   `4`: **DaysResearchMeetObjectiveRCTEnv** (Realistic day-by-day simulation).
 
-## 📊 Risultati Sperimentali
+## 📊 Experimental Results
 
-Il training è stato ottimizzato rispetto alla configurazione originale applicando tre interventi principali per garantirne la fattibilità su hardware consumer:
+The training process was optimised compared to the original configuration by implementing three key changes to ensure it could run on consumer hardware:
 
-1.  **Adattamento Iperparametri**: Riduzione del *training batch size* (da 512 a 256) e fissaggio dei worker a 2 per operare entro i limiti di VRAM della GPU (RTX 3050 Ti).
-2.  **Stabilità delle Risorse**: Vincoli espliciti sulla memoria dell'object store di Ray per prevenire crash OOM (*Out Of Memory*) e saturazione dello swap.
-3.  **Hybrid Reward Function**: Modifica della funzione di ricompensa per combinare il *shaping* denso originale con segnali sparsi terminali (bonus vittoria/sconfitta), accelerando la convergenza su orizzonti temporali ridotti.
-4.  **CBAM Attention**: Integrazione del modulo *Convolutional Block Attention Module* (CBAM) nella rete visuale per migliorare l'estrazione delle feature spaziali critiche.
-5.  **Transfer Learning**: Implementazione di pipeline di *Fine-Tuning* che hanno permesso di adattare il modello a nuovi scenari (es. *Crazy Castle*).
+1.  **Hyperparameter Tuning**: Reducing the *training batch size* (from 512 to 256) and setting the number of workers to 2 to operate within the VRAM limits of the GPU (RTX 3050 Ti).
+2.  **Resource Stability**: Explicit constraints on Ray’s object store memory to prevent OOM (*Out Of Memory*) crashes and swap space saturation.
+3.  **Hybrid Reward Function**: Modification of the reward function to combine the original dense *shaping* with sparse terminal signals (win/loss bonuses), accelerating convergence over shorter time horizons.
+4.  **CBAM Attention**: Integration of the *Convolutional Block Attention Module* (CBAM) into the visual network to improve the extraction of critical spatial features.
+5.  **Transfer Learning**: Implementation of *Fine-Tuning* pipelines that enabled the model to be adapted to new scenarios (e.g. *Crazy Castle*).
 
-## 👤 Autore
+## 👤 Author
 
 **Francesco De Marco**
-Progetto di Machine & Deep Learning - A.A. 2025/2026
+Machine & Deep Learning Project - Academic Year 2025/2026
 
 ---
-*Credit: Basato sulla ricerca originale e sulla base di codice `https://github.com/campbelljc/rctrl`.*
+*Credit: Based on the original research and the code base `https://github.com/campbelljc/rctrl`.*
